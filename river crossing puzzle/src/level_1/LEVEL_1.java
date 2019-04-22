@@ -25,16 +25,20 @@ public class LEVEL_1 {
 	public LEVEL_1(Stage stage) {
 		this.stage= stage;
 	}
+	//@SuppressWarnings("deprecation")
 	public void scene_build() {
-		//Group root = new Group();
-		Pane root = new Pane();
-		Canvas canvas = new Canvas(2000,2000);
+		Group root = new Group();
+		Canvas canvas = new Canvas(600,600);
 		root.getChildren().add(canvas);
 		GraphicsContext gc= canvas.getGraphicsContext2D();
-		Image image = new Image("file:///C:/Users/HP/eclipse-workspace/river%20crossing%20puzzle/src/StartMenu/background.png");
+		Image image = new Image("file:///C:/Users/HP/eclipse-workspace/river%20crossing%20puzzle/src/level_1/background.png");
         gc.drawImage(image, 0, 0);
-    	scene = new Scene (root,800,600);
+    	scene = new Scene (root,600,600);
     	Image image2 = new Image("file:///C:/Users/HP/eclipse-workspace/river%20crossing%20puzzle/src/StartMenu/raft.png");
+         Sprite raft = new Sprite (image2);
+         raft.setPositionX(350);
+         raft.setPositionY(320);
+         raft.render(gc);
     	gc.drawImage(image2, 350, 320);
     	Image farmer_img = new Image("file:///C:/Users/HP/eclipse-workspace/river%20crossing%20puzzle/src/spirites/farmer.png");
     	Sprite farmer = new Sprite(farmer_img);
@@ -56,25 +60,135 @@ public class LEVEL_1 {
     	plant.setPositionX(290);
     	plant.setPositionY(410);
     	plant.render(gc);
-    	Button farmerbtn = new Button();
-
+    	Image button_img = new Image ("file:///C:/Users/HP/eclipse-workspace/river%20crossing%20puzzle/src/StartMenu/button.png");
+        gc.drawImage(button_img, 500, 0);
+        
+        
     	scene.setOnMouseClicked((MouseEvent)->
     	{
-    		Point p = MouseInfo.getPointerInfo().getLocation();
-
-    		if((p.x>=farmer.getPositionX())&&(p.x<=farmer.getPositionX()+farmer.getWidth())||(p.y>=farmer.getPositionY())&&(p.y<=farmer.getPositionY()+farmer.getHeight())) {
-    	farmer.setPositionX(380);
+    	double x=	MouseEvent.getSceneX();
+    	double y = MouseEvent.getSceneY();
+    if((x>=farmer.getPositionX())&&(x<farmer.getPositionX()+farmer.getWidth())&&(y>=farmer.getPositionY())&&(y<farmer.getPositionY()+farmer.getHeight())) 
+    {
+    		farmer.setPositionX(380);
     	farmer.setPositionY(310);
-    	gc.clearRect(0, 0, 2000, 2000);
-    	 gc.drawImage(image, 0, 0);
-     	gc.drawImage(image2, 350, 320);
-        farmer.render(gc);
-        goat.render(gc);
-        plant.render(gc);
-        wolf.render(gc);
+    	gc.clearRect(0, 0, 600, 600);
+      	 gc.drawImage(image, 0, 0);
+       	gc.drawImage(image2, 350, 320);
+          farmer.render(gc);
+          goat.render(gc);
+          plant.render(gc);
+          wolf.render(gc);
+          gc.drawImage(button_img, 500, 0);
     		}
+    else if((x>=wolf.getPositionX())&&(x<wolf.getPositionX()+wolf.getWidth())&&(y>=wolf.getPositionY())&&(y<wolf.getPositionY()+wolf.getHeight())) {
+		wolf.setPositionX(420);
+	wolf.setPositionY(310);
+	gc.clearRect(0, 0, 600, 600);
+  	 gc.drawImage(image, 0, 0);
+   	gc.drawImage(image2, 350, 320);
+      farmer.render(gc);
+      goat.render(gc);
+      plant.render(gc);
+      wolf.render(gc);
+      gc.drawImage(button_img, 500, 0);
+
+		}
+    else  if((x>=plant.getPositionX())&&(x<plant.getPositionX()+plant.getWidth())&&(y>=plant.getPositionY())&&(y<plant.getPositionY()+plant.getHeight())) {
+		plant.setPositionX(460);
+	plant.setPositionY(310);
+     gc.clearRect(0, 0, 600, 600);
+  	 gc.drawImage(image, 0, 0);
+   	gc.drawImage(image2, 350, 320);
+      farmer.render(gc);
+      goat.render(gc);
+      plant.render(gc);
+      wolf.render(gc);
+      gc.drawImage(button_img, 500, 0);
+
+		}
+    else  if((x>=goat.getPositionX())&&(x<goat.getPositionX()+goat.getWidth())&&(y>=goat.getPositionY())&&(y<goat.getPositionY()+goat.getHeight())) {
+		goat.setPositionX(500);
+	goat.setPositionY(310);
+	gc.clearRect(0, 0, 600, 600);
+  	 gc.drawImage(image, 0, 0);
+   	gc.drawImage(image2, 350, 320);
+      farmer.render(gc);
+      goat.render(gc);
+      plant.render(gc);
+      wolf.render(gc);
+      gc.drawImage(button_img, 500, 0);
+}
+    else if ((x>=500)&&(x<500+button_img.getWidth())&&(y>=0)&&(y<0+button_img.getHeight())) {
+    	if(raft.getPositionY()==320) {
+    	 if(farmer.getPositionX()!=150) {
+    		farmer.setPositionX(50);
+    		farmer.setPositionY(100);
+    		
     	}
+    	  if (goat.getPositionX()!=380) {
+    		goat.setPositionX(100);
+    		goat.setPositionY(100);
+    	}
+    	  if(wolf.getPositionX()!=190) {
+    		wolf.setPositionX(150);
+    		wolf.setPositionY(100);
+    	}
+    	 if(plant.getPositionX()!=290) {
+    		plant.setPositionX(250);
+    		plant.setPositionY(100);
+    	}
+    	 gc.drawImage(image, 0, 0);
+    	 raft.setPositionX(350);
+    	 raft.setPositionY(260);
+raft.render(gc);		     
+farmer.render(gc);
+		      goat.render(gc);
+		      plant.render(gc);
+		      wolf.render(gc);
+		        gc.drawImage(button_img, 500, 0);
+
+    }
+    	else if (raft.getPositionY()==260) {
+    		if(farmer.getPositionX()!=50) {
+        		farmer.setPositionX(150);
+        		farmer.setPositionY(410);
+        		
+        	}
+        	  if (goat.getPositionX()!=100) {
+        		goat.setPositionX(380);
+        		goat.setPositionY(410);
+        	}
+        	  if(wolf.getPositionX()!=150) {
+        		wolf.setPositionX(190);
+        		wolf.setPositionY(410);
+        	}
+        	 if(plant.getPositionX()!=250) {
+        		plant.setPositionX(290);
+        		plant.setPositionY(410);
+        	}
+        	 gc.drawImage(image, 0, 0);
+    		   	gc.drawImage(image2, 350, 260);
+    		      farmer.render(gc);
+    		      goat.render(gc);
+    		      plant.render(gc);
+    		      wolf.render(gc);
+    		        gc.drawImage(button_img, 500, 0);
+    	}
+    }
+	
+    	   
+    
+    	
+    	}
+
+    	
     	);
+    	
+    			
+    	
+    	
+    	
     	
     	
     			}
