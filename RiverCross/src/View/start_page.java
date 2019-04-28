@@ -21,7 +21,7 @@ public class start_page {
     Scene scene;
     LEVEL_1 level_1;
     LEVEL_2 level_2;
-
+    
     Controller controller;
     GraphicsContext gc;
     Image starimg = new Image ("file:///C:/Users/HP/eclipse-workspace/RiverCross/src/Assets/star.png");
@@ -67,55 +67,17 @@ System.out.println("width is  "+level1.getWidth()+  "  height is  "+level1.getHe
         		System.out.println("a7a");
         	}
 
-            /*  if ((x >= lvl2.getPositionX()) && (x < lvl2.getPositionX() + lvl2.getWidth())
+        	else  if ((x >= lvl2.getPositionX()) && (x < lvl2.getPositionX() + lvl2.getWidth())
                     && (y >= lvl2.getPositionY()) && (y < lvl2.getPositionY() + lvl2.getHeight())) {
         		stage.setScene(level_2.getScene());
         		System.out.println("a7ten");
-        	}*/
+        		
+        	}
         	
     }
                 );
         
-       /* controller = new Controller();
-    	controller.loadGame();
-        star.setFinish(controller.x1.getFinish());
-        star.setRank(controller.x1.getRank());
-
- System.out.println("***********************\n");
- System.out.println(star.getRank());
-        if(star.getFinish()==1) {
-            star.setRank(controller.x1.getRank());
-            star.setFinish(controller.x1.getFinish());
-        	if(star.getRank()==7) {
-        		star.setPositionX(50);
-        	star.setPositionY(60+level1.getHeight());
-        		star.render(gc);
-        	star.setPositionX(100);
-        		star.setPositionY(60+level1.getHeight());
-        		star.render(gc);
-        		star.setPositionX(150);
-        		star.setPositionY(60+level1.getHeight());
-        		star.render(gc);
-        	}
-        	else if(star.getRank()<=11) {
-        		star.setPositionX(50);
-            	star.setPositionY(60+level1.getHeight());
-            		star.render(gc);
-            	star.setPositionX(100);
-            		star.setPositionY(60+level1.getHeight());
-            		star.render(gc);
-        	}
-        	else
-        	{
-        		star.setPositionX(50);
-            	star.setPositionY(60+level1.getHeight());
-            		star.render(gc);
-        	}
-        }
-        
-        
-         */
-
+   
                
 
     }
@@ -127,7 +89,9 @@ System.out.println("width is  "+level1.getWidth()+  "  height is  "+level1.getHe
     public void setlevel_1(LEVEL_1 level_1) {
         this.level_1 = level_1;
     }
-
+    public void setlevel_2(LEVEL_2 level_2) {
+        this.level_2 = level_2;
+    }
     public void set_star() {
     	controller = new Controller();
     	controller.loadGame();
@@ -167,9 +131,5 @@ System.out.println("width is  "+level1.getWidth()+  "  height is  "+level1.getHe
         }
     }
 
-	public void setlevel_2(LEVEL_2 level_2) {
-		// TODO Auto-generated method stub
-        this.level_2 = level_2;
 
-	}
 }
