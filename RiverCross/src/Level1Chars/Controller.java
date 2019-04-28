@@ -23,6 +23,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     public Sprite x3; //goat
     public Sprite x4; //wolf
     public Sprite x5; //plant
+    public Sprite x6;  // star
 	public Controller() {
 	}
 	
@@ -251,7 +252,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     }
     
     @Override
-    public void saveGame( 	Sprite farmer,Sprite raft,Sprite goat,Sprite wolf , Sprite plant  ) {
+    public void saveGame( 	Sprite farmer,Sprite raft,Sprite goat,Sprite wolf , Sprite plant ) {
 		try {
 		//	FileOutputStream filestream = new FileOutputStream(new File("./save_level1.xml"));
 			XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream(new File (("./save_level1.xml")))));
@@ -261,6 +262,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
 			encoder.writeObject(goat);
 			encoder.writeObject(wolf);
 		    encoder.writeObject(plant);
+
             System.out.println("save is done");
 			encoder.close();
 			//filestream.close();
@@ -271,9 +273,24 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
 		}
 		
     }
-
+    
+    public boolean check_load () {
+    	FileInputStream file;
+    	try {
+			file = new FileInputStream (new File("./save_level1.xml"));
+			if(file!=null)
+	    		return true;
+	    	else 
+	    		return false;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    return false;
+    }
+    
     @Override
-    public  void  loadGame() {
+    public  void   loadGame() {
     	FileInputStream file;
   		LowerBankCrossers.clear();
 		UpperBankCrossers.clear();
@@ -283,13 +300,14 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     		file = new FileInputStream (new File("./save_level1.xml"));
     		XMLDecoder decoder = new XMLDecoder(file);
     		
+    		
     		x1 = (Sprite) decoder.readObject();
     		x2= (Sprite) decoder.readObject();
     		x3= (Sprite) decoder.readObject();
     		x4 = (Sprite) decoder.readObject();
     		x5= (Sprite) decoder.readObject();
     		decoder.close();
-  
+    		
     		System.out.println("farmer location " + x1.getLocation());
     		System.out.println("goat location " + x3.getLocation());
     		System.out.println("wolf location " + x4.getLocation());
@@ -347,6 +365,7 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     		}
     		else
     			UpperBankCrossers.add(plant);
+    		
     	//********************
 
     		
@@ -361,7 +380,6 @@ public class Controller implements IRiverCrossingController, java.io.Serializabl
     		// TODO Auto-generated catch block
     		e.printStackTrace();
     	}
-        
 
     }
 

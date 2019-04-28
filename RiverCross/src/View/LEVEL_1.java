@@ -20,9 +20,24 @@ public class LEVEL_1 implements java.io.Serializable {
     start_page startpage;
     Strategy strategy1;
     Controller controller;
+    Sprite farmer;
+    // boolean save_flag=false;
 
+    /**
+	 * @return the farmer
+	 */
+	public Sprite getFarmer() {
+		return farmer;
+	}
 
-    public LEVEL_1() {
+	/**
+	 * @param farmer the farmer to set
+	 */
+	public void setFarmer(Sprite farmer) {
+		this.farmer = farmer;
+	}
+
+	public LEVEL_1() {
 	}
 
 	public boolean getRiftLocation() {
@@ -63,11 +78,17 @@ public class LEVEL_1 implements java.io.Serializable {
      loadbtn.setPositionX(250);
      loadbtn.setPositionY(0);
      loadbtn.render(gc);
+     Image showimg = new Image("file:///C:/Users/HP/eclipse-workspace/RiverCross/src/Assets/show.png");
+     Sprite showbtn = new Sprite(showimg);
+     showbtn.setPositionX(400);
+     showbtn.setPositionY(0);
+    showbtn.render(gc);		 
+     
      
      scene = new Scene(root, 600, 600);
 
         Image farmer_img = new Image("Assets/farmer.png");
-        Sprite farmer = new Sprite(farmer_img);
+        this.farmer = new Sprite(farmer_img);
         farmer.setPositionX(120);
         farmer.setPositionY(410);
         farmer.render(gc);
@@ -113,7 +134,15 @@ public class LEVEL_1 implements java.io.Serializable {
             double x = MouseEvent.getSceneX();
             double y = MouseEvent.getSceneY();
            
-            	
+            if((x >= showbtn.getPositionX()) && (x < showbtn.getPositionX() + showbtn.getWidth())
+                    && (y >= showbtn.getPositionY()) && (y < showbtn.getPositionY() + showbtn.getHeight()))	{
+            	 Alert rulealert = new Alert(Alert.AlertType.INFORMATION);
+                 rulealert.setHeaderText("RULE ");
+                 rulealert.setContentText(" 1- farmer only can row the raft \n 2- you can't leave goat and wolf alone without the farmer\n "
+                 		+ "3- you can't leave goat and plant together without the farmer \n"
+                 		+" 4- the raft can left only two crossers");
+                 rulealert.showAndWait();
+            }
             	
             if((x >= resetbtn.getPositionX()) && (x < resetbtn.getPositionX() + resetbtn.getWidth())
                     && (y >= resetbtn.getPositionY()) && (y < resetbtn.getPositionY() + resetbtn.getHeight()))
@@ -122,13 +151,14 @@ public class LEVEL_1 implements java.io.Serializable {
                 raft.setPositionY(320);
                 farmer.setPositionX(120);
                 farmer.setPositionY(410);
+                farmer.setRank(0);
                 goat.setPositionX(460);
                 goat.setPositionY(410);
                 plant.setPositionX(310);
                 plant.setPositionY(410);
                 wolf.setPositionX(200);
                 wolf.setPositionY(410);
-                
+                farmer.setRank(0);
                 //reset sprites's locaiton
                 farmer.setLocation(1);
                 wolf.setLocation(1);
@@ -146,10 +176,14 @@ public class LEVEL_1 implements java.io.Serializable {
                 movebtn.render(gc);
                	resetbtn.render(gc);
                 wolf.render(gc);
+                showbtn.render(gc);		 
+
                 controller.resetGame();}
             if((x >= loadbtn.getPositionX()) && (x < loadbtn.getPositionX() + loadbtn.getWidth())
                     && (y >= loadbtn.getPositionY()) && (y < loadbtn.getPositionY() + loadbtn.getHeight()))
-            {
+            { 
+            	
+            	if(controller.check_load()) {
               controller.loadGame();
              farmer.setPositionX(controller.x1.getPositionX());
               farmer.setPositionY(controller.x1.getPositionY());
@@ -161,7 +195,8 @@ public class LEVEL_1 implements java.io.Serializable {
               wolf.setPositionY(controller.x4.getPositionY());
               plant.setPositionX(controller.x5.getPositionX());
               plant.setPositionY(controller.x5.getPositionY());
-              
+              farmer.setRank(controller.x1.getRank());
+              numOfSails=farmer.getRank();
               farmer.setLocation(controller.x1.getLocation());
               raft.setLocation(controller.x2.getLocation());
               goat.setLocation(controller.x3.getLocation());
@@ -179,12 +214,24 @@ public class LEVEL_1 implements java.io.Serializable {
                 wolf.render(gc);
                 movebtn.render(gc);
                	resetbtn.render(gc);
+                showbtn.render(gc);		 
+
+               	}
+           	else
+            	{
+            		Alert nosavealert = new Alert(Alert.AlertType.INFORMATION);
+            		nosavealert.setHeaderText("ATTENtion");
+            		nosavealert.setContentText("no previous saved games");
+            		nosavealert.showAndWait();
+            		
+            				}
             	
             }
             if((x >= savebtn.getPositionX()) && (x < savebtn.getPositionX() + savebtn.getWidth())
                         && (y >= savebtn.getPositionY()) && (y < savebtn.getPositionY() + savebtn.getHeight())) {
             	controller.saveGame(farmer,raft,goat,
             			wolf,plant);
+            
             }
              if (raft.getPositionY() == 320) {
                 if ((x >= farmer.getPositionX()) && (x < farmer.getPositionX() + farmer.getWidth())
@@ -205,6 +252,7 @@ public class LEVEL_1 implements java.io.Serializable {
                         resetbtn.render(gc);
                         loadbtn.render(gc);
                         
+                        showbtn.render(gc);		 
 
                         savebtn.render(gc);
                        	movebtn.render(gc);
@@ -231,8 +279,9 @@ public class LEVEL_1 implements java.io.Serializable {
                         savebtn.render(gc);
                         resetbtn.render(gc);
                         loadbtn.render(gc);
-
                        	movebtn.render(gc);
+                        showbtn.render(gc);		 
+
                         //moveSprite(goat, wolf, farmer, plant, gc, image, image2, button_img);
                         System.out.println(controller.canMove(controller.getCrossers(), true));
                     } else {
@@ -255,6 +304,7 @@ public class LEVEL_1 implements java.io.Serializable {
                         savebtn.render(gc);
                         resetbtn.render(gc);
                         loadbtn.render(gc);
+                        showbtn.render(gc);		 
 
                        	movebtn.render(gc);
                         //  moveSprite(wolf, farmer, farmer, plant, gc, image, image2, button_img);
@@ -280,6 +330,7 @@ public class LEVEL_1 implements java.io.Serializable {
                         savebtn.render(gc);
                         resetbtn.render(gc);
                         loadbtn.render(gc);
+                        showbtn.render(gc);		 
 
                        	movebtn.render(gc);
                         //  moveSprite(plant, wolf, goat, farmer, gc, image, image2, button_img);
@@ -314,6 +365,7 @@ public class LEVEL_1 implements java.io.Serializable {
                         }
                         riftLocation = true;
                         numOfSails++;
+                        farmer.setRank(numOfSails);
                         controller.clearcrossers();
 
                         background.render(gc);
@@ -326,39 +378,44 @@ public class LEVEL_1 implements java.io.Serializable {
                         savebtn.render(gc);
                         resetbtn.render(gc);
                         loadbtn.render(gc);
+                        showbtn.render(gc);		 
 
                         wolf.render(gc);
                        	movebtn.render(gc);
                        	if(controller.success())
                         {
-                            System.out.println("dakhal kosom elcondition " + numOfSails);
+                    		farmer.setFinish(1);
+                    		farmer.setRank(numOfSails);
 
                             Alert successalert = new Alert(Alert.AlertType.INFORMATION);
                             successalert.setHeaderText("Congratulations!! ");
                             
-                        	if(numOfSails == 7)
+                        	if(farmer.getRank()==7)
                         	{
-                        		farmer.setRank(3);
                         		successalert.setContentText("Your rank is: \n ***");
                         		successalert.showAndWait();
+                        	
                         	}
-                        	else if ((numOfSails <= 11)&&(numOfSails>7))
-                        	{
-                        		farmer.setRank(2);
+                        	else if ((farmer.getRank() <= 11)&&(farmer.getRank()>7))
+                        	{ 
                         		successalert.setContentText("Your rank is: \n **");
                         		successalert.showAndWait();
+                        	
                         	}
                         		
                         	else
-                        	{
-                        		farmer.setRank(1);
+                        	{ 
                         		successalert.setContentText("Your rank is: \n *");
                         		successalert.showAndWait();
+                        		
                         	}
                         	controller.saveGame(farmer,raft,goat,
                         			wolf,plant);
+                        	controller.loadGame();
                         	controller.resetGame();
+                        	startpage.scene_build();
                         	
+                        		 
                         	stage.setScene(startpage.getScene());
                         	raft.setPositionX(350);
                             raft.setPositionY(320);
@@ -388,6 +445,8 @@ public class LEVEL_1 implements java.io.Serializable {
                             movebtn.render(gc);
                            	resetbtn.render(gc);
                             wolf.render(gc);
+                            showbtn.render(gc);		 
+
                         	}
                     } else {
                         Alert error = new Alert(Alert.AlertType.INFORMATION);
@@ -415,6 +474,7 @@ public class LEVEL_1 implements java.io.Serializable {
                     savebtn.render(gc);
                     resetbtn.render(gc);
                     loadbtn.render(gc);
+                    showbtn.render(gc);		 
 
                     wolf.render(gc);
                    	movebtn.render(gc);
@@ -442,6 +502,7 @@ public class LEVEL_1 implements java.io.Serializable {
                     savebtn.render(gc);
                     resetbtn.render(gc);
                     loadbtn.render(gc);
+                    showbtn.render(gc);		 
 
                     gc.drawImage(button_img, 500, 0);
                     //moveSprite(goat, wolf, farmer, plant, gc, image, image2, button_img);
@@ -464,6 +525,7 @@ public class LEVEL_1 implements java.io.Serializable {
                     savebtn.render(gc);
                     resetbtn.render(gc);
                     loadbtn.render(gc);
+                    showbtn.render(gc);		 
 
                     plant.render(gc);
                     wolf.render(gc);
@@ -490,6 +552,7 @@ public class LEVEL_1 implements java.io.Serializable {
                     savebtn.render(gc);
                     resetbtn.render(gc);
                     loadbtn.render(gc);
+                    showbtn.render(gc);		 
 
                     wolf.render(gc);
                     movebtn.render(gc);
@@ -525,6 +588,7 @@ public class LEVEL_1 implements java.io.Serializable {
                     }
                     controller.clearcrossers();
                     numOfSails++;
+                    farmer.setRank(numOfSails);
                     riftLocation = false;
                     background.render(gc);
                     raft.setPositionX(350);
@@ -535,6 +599,7 @@ public class LEVEL_1 implements java.io.Serializable {
                     savebtn.render(gc);
                     resetbtn.render(gc);
                     loadbtn.render(gc);
+                    showbtn.render(gc);		 
 
                     plant.render(gc);
                     wolf.render(gc);

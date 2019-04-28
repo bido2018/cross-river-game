@@ -1,8 +1,11 @@
 package View;
 
+import Level1Chars.Controller;
+import Level1Chars.Sprite;
 import View.LEVEL_1;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,56 +13,110 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import java.awt.MouseInfo;
+import java.awt.Point;
 
 public class start_page {
     Stage stage;
     Scene scene;
     LEVEL_1 level_1;
+    LEVEL_2 level_2;
 
+    Controller controller;
+    GraphicsContext gc;
+    Image starimg = new Image ("file:///C:/Users/HP/eclipse-workspace/RiverCross/src/Assets/star.png");
+    Sprite star = new Sprite(starimg);
+    Image image1 = new Image("file:///C:/Users/HP/eclipse-workspace/RiverCross/src/Assets/leve1%20btn.png");
+    Sprite level1 = new Sprite(image1);
+    Image imagelvl2 = new Image("file:///C:/Users/HP/eclipse-workspace/RiverCross/src/Assets/LEVEL2.png");
+    Sprite lvl2 = new Sprite(imagelvl2);
     public start_page(Stage stage) {
         this.stage = stage;
     }
 
     public void scene_build() {
-        //Group root = new Group();
-        HBox root = new HBox(8);
-        //Scene scene = new Scene (root,600,600);
-        Canvas canvas = new Canvas(2000, 2000);
-        //root.getChildren().add(canvas);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+    	 Pane root = new Pane();
+         Canvas canvas = new Canvas(600, 600);
+         root.getChildren().add(canvas);
+          gc = canvas.getGraphicsContext2D();
+
         Image image = new Image("Assets/background.png");
-        BackgroundImage backgroundImage0 = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background0 = new Background(backgroundImage0);
-        root.setBackground(background0);
-        gc.drawImage(image, 0, 0);
-        Button level_1btn = new Button();
-        level_1btn.setPrefSize(230, 400);
-        Image image1 = new Image("Assets/level 1 back button.png");
-        BackgroundImage backgroundImage = new BackgroundImage(image1, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        level_1btn.setBackground(background);
-        level_1btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.setScene(level_1.getScene());
+        Sprite background = new Sprite(image);
+        background.setPositionX(0);
+        background.setPositionY(0);
+        background.render(gc);
+           
+        level1.setPositionX(30);
+        level1.setPositionY(50);
+        level1.render(gc);
+        lvl2.setPositionX(50+level1.getWidth());
+        lvl2.setPositionY(50);
+lvl2.render(gc);
+System.out.println("width is  "+level1.getWidth()+  "  height is  "+level1.getHeight());
+        scene = new Scene (root,600,600);
+        set_star();
 
-            }
-        });
+        //////            stage.setScene(level_1.getScene());
+       scene.setOnMouseClicked((MouseEvent) ->{
+        	
+            double x = MouseEvent.getSceneX();
+            double y = MouseEvent.getSceneY();
+        	if ((x >= level1.getPositionX()) && (x < level1.getPositionX() + level1.getWidth())
+                    && (y >= level1.getPositionY()) && (y < level1.getPositionY() + level1.getHeight())) {
+        		stage.setScene(level_1.getScene());
+        		System.out.println("a7a");
+        	}
 
-        Button level_2 = new Button();
-        level_2.setPrefSize(230, 400);
-        Image image2 = new Image("Assets/d.png");
-        BackgroundImage backgroundImage2 = new BackgroundImage(image2, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background2 = new Background(backgroundImage2);
-        level_2.setBackground(background2);
-        level_2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.setScene(level_2.getScene());
-            }
-        });
-        root.getChildren().addAll(level_1btn, level_2);
-        scene = new Scene(root, 800, 600);
+            /*  if ((x >= lvl2.getPositionX()) && (x < lvl2.getPositionX() + lvl2.getWidth())
+                    && (y >= lvl2.getPositionY()) && (y < lvl2.getPositionY() + lvl2.getHeight())) {
+        		stage.setScene(level_2.getScene());
+        		System.out.println("a7ten");
+        	}*/
+        	
+    }
+                );
+        
+       /* controller = new Controller();
+    	controller.loadGame();
+        star.setFinish(controller.x1.getFinish());
+        star.setRank(controller.x1.getRank());
+
+ System.out.println("***********************\n");
+ System.out.println(star.getRank());
+        if(star.getFinish()==1) {
+            star.setRank(controller.x1.getRank());
+            star.setFinish(controller.x1.getFinish());
+        	if(star.getRank()==7) {
+        		star.setPositionX(50);
+        	star.setPositionY(60+level1.getHeight());
+        		star.render(gc);
+        	star.setPositionX(100);
+        		star.setPositionY(60+level1.getHeight());
+        		star.render(gc);
+        		star.setPositionX(150);
+        		star.setPositionY(60+level1.getHeight());
+        		star.render(gc);
+        	}
+        	else if(star.getRank()<=11) {
+        		star.setPositionX(50);
+            	star.setPositionY(60+level1.getHeight());
+            		star.render(gc);
+            	star.setPositionX(100);
+            		star.setPositionY(60+level1.getHeight());
+            		star.render(gc);
+        	}
+        	else
+        	{
+        		star.setPositionX(50);
+            	star.setPositionY(60+level1.getHeight());
+            		star.render(gc);
+        	}
+        }
+        
+        
+         */
+
+               
 
     }
 
@@ -71,5 +128,48 @@ public class start_page {
         this.level_1 = level_1;
     }
 
+    public void set_star() {
+    	controller = new Controller();
+    	controller.loadGame();
+        star.setFinish(controller.x1.getFinish());
+        star.setRank(controller.x1.getRank());
 
+ System.out.println("***********************\n");
+ System.out.println(star.getRank());
+        if(star.getFinish()==1) {
+            star.setRank(controller.x1.getRank());
+            star.setFinish(controller.x1.getFinish());
+        	if(star.getRank()==7) {
+        		star.setPositionX(50);
+        	star.setPositionY(60+level1.getHeight());
+        		star.render(gc);
+        	star.setPositionX(100);
+        		star.setPositionY(60+level1.getHeight());
+        		star.render(gc);
+        		star.setPositionX(150);
+        		star.setPositionY(60+level1.getHeight());
+        		star.render(gc);
+        	}
+        	else if(star.getRank()<=11) {
+        		star.setPositionX(50);
+            	star.setPositionY(60+level1.getHeight());
+            		star.render(gc);
+            	star.setPositionX(100);
+            		star.setPositionY(60+level1.getHeight());
+            		star.render(gc);
+        	}
+        	else
+        	{
+        		star.setPositionX(50);
+            	star.setPositionY(60+level1.getHeight());
+            		star.render(gc);
+        	}
+        }
+    }
+
+	public void setlevel_2(LEVEL_2 level_2) {
+		// TODO Auto-generated method stub
+        this.level_2 = level_2;
+
+	}
 }

@@ -12,6 +12,7 @@ public class Sprite implements java.io.Serializable {
     private int weight;
     private int location;
     private int  rank;
+    private int finish;
     
     // if location = 1 this means on the lower bank
     // if location = 2  this means on the raftlower
@@ -53,9 +54,24 @@ public class Sprite implements java.io.Serializable {
         this.height = imagee.getHeight();
         this.location = 1;
         this.rank=0;
+        this.finish=0;
     }
 
-    public int getWeight() {
+    /**
+	 * @return the finish
+	 */
+	public int getFinish() {
+		return finish;
+	}
+
+	/**
+	 * @param finish the finish to set
+	 */
+	public void setFinish(int finish) {
+		this.finish = finish;
+	}
+
+	public int getWeight() {
         return weight;
     }
 
